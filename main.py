@@ -1,13 +1,18 @@
 import re
 import customtkinter as ctk
 import numpy as np
+import matplotlib
+matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
+import matplotlib
+
+print(matplotlib.get_backend())
 
 root=None
 
 def graph_plotter(equation,root):
 
-  plt.clf()
+  plt.close('all')
 
   root_min = root - 2
   root_max = root + 2
@@ -20,10 +25,24 @@ def graph_plotter(equation,root):
 
     y_values.append(function_evaluator(equation,x))
 
+  fig = plt.figure()
+  fig.patch.set_facecolor("black")
+
+  ax = plt.gca()
+  ax.set_facecolor("black")
+  ax.tick_params(colors="white")
+
+  ax.grid(color="gray",alpha=0.3)
+
+  for spine in ax.spines.values():
+    spine.set_color("white")
+
   plt.plot(x_range,y_values)
   plt.scatter(root,0,color="red",s=80,zorder=5)
   plt.xlabel("Value of x")
   plt.ylabel("Corresponding value of y")
+  plt.text(root,0, "",color="white",fontweight="bold")
+  
   plt.show()
 
 def function_evaluator(verified_equation,x):
